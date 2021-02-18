@@ -48,4 +48,29 @@ public class PwreissueinfoService {
     public boolean deleteOne(String token) {
         return pwreissueinfoMapper.deleteOne(token);
     }
+    
+    /**
+     * １件取得用メソッド.
+     * 
+     * @param token token
+     * @return selectOne
+     */
+    public Pwreissueinfo selectOneByUserid(String user_id) {
+        // selectOne実行
+        return pwreissueinfoMapper.selectOneByUserid(user_id);
+    }
+    
+    /**
+     * １件更新用メソッド.
+     * 
+     * @param user_id     user_id
+     * @param token       token
+     * @param secret      secret
+     * @param rawPassword rawPassword
+     * @return resetPassword
+     */
+    public boolean resetPassword(String user_id, String token, String secret, String rawPassword) {
+        // resetPassword実行
+        return pwreissueinfoMapper.resetPassword(user_id, token, secret, rawPassword);
+    }
 }

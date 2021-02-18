@@ -35,4 +35,23 @@ public interface PwreissueinfoMapper {
      */
     public boolean deleteOne(String token);
 
+    /**
+     * １件検索用メソッド
+     * 
+     * @param user_id user_id
+     * @return selectOneByUserid
+     */
+    public Pwreissueinfo selectOneByUserid(String user_id);
+    
+    /**
+     * １件更新用メソッド
+     * 
+     * @param user_id     user_id
+     * @param token       token
+     * @param secret      secret
+     * @param rawPassword rawPassword
+     * @return resetPassword
+     */
+    public boolean resetPassword(String user_id, String token, String secret, String rawPassword);
+
 }

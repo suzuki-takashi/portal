@@ -10,6 +10,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.portal.z.common.domain.model.Pwreissueinfo;
+import com.portal.z.common.domain.service.PwreissueinfoService;
 import com.portal.z.pwreissue.domain.model.PwreissueForm;
 import com.portal.z.pwreissue.domain.service.PwreissueService;
 
@@ -20,8 +24,14 @@ import com.portal.z.pwreissue.domain.service.PwreissueService;
 @Controller
 public class PwreissueController {
     
+//    @Autowired
+//    Pwreissueinfo pwreissueinfo;
+    
     @Autowired
     PwreissueService pwreissueService;
+    
+    @Autowired
+    PwreissueinfoService pwreissueinfoService;
 
     // パスワード暗号化
     @Autowired
@@ -60,17 +70,21 @@ public class PwreissueController {
 
         // パスワード再設定用情報を登録する。
         String result = pwreissueService.insertPwreissueinfo(form.getUser_id());
-        
+
         model.addAttribute("result1", "パスワード再設定用のURLを、ご入力いただいたユーザIDに送信しました。");
         model.addAttribute("result2", "このURLにアクセスし、以下の仮パスワードでログインしてください。");
         model.addAttribute("result3", "仮パスワード：" + result);
-        
+
+        // パスワード再設定用情報を検索する。
+        Pwreissueinfo pwreissueinfo = pwreissueinfoService.selectOneByUserid(form.getUser_id());
+
         // パスワード再設定画面のURLを生成
-//        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString("http://localhost:8080/");
-//        uriBuilder.pathSegment("pwreissue").pathSegment("resetpassword").queryParam("form").queryParam("token", token);
-//        String passwordResetUrl = uriBuilder.build().encode().toUriString();
-//
-//        log.info("passwordResetUrl:：" + passwordResetUrl);
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString("http://localhost:8080/");
+        uriBuilder.pathSegment("resetpassword").queryParam("form").queryParam("token",
+                pwreissueinfo.getToken());
+        String passwordResetUrl = uriBuilder.build().encode().toUriString();
+
+        System.out.println("test:" + passwordResetUrl);
 
         // パスワード再設定画面のURLをメールで送信する。
 
