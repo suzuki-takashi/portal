@@ -1,10 +1,15 @@
 # Spring
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:portaldb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: sa
     password:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: ${DATASOURCE_URL}
+#    username: ${DATASOURCE_USERNAME}
+#    password: ${DATASOURCE_PASSWORD}
   sql:
     init:
       encoding: UTF-8
@@ -30,3 +35,48 @@ cloud:
     credentials:
       instanceProfile: false
       profileName: default
+      
+           
+#ログレベル(以下の設定から一つを選ぶ）
+#logging.level.root =OFF
+#logging.level.root =TRACE
+#logging.level.root =DEBUG
+logging:
+  level:
+    root: INFO
+#logging.level.root =WARN
+#logging.level.root =ERROR
+
+#SQLの実行結果をログに出力する
+    com:
+      portal:
+        a:
+          common:
+            domain:
+              repository:
+                \/ : DEBUG
+        b:
+          common:
+            domain:
+              repository:
+                \* : DEBUG
+        c:
+          common:
+            domain:
+              repository:
+                \* : DEBUG
+
+#ログファイル名を指定
+  file:
+    name: log/portal.log
+
+#ログファイル名を指定
+  pattern:
+    level: '%5p USER_ID:%X{USER_ID} SESSION_ID:%X{SESSION_ID} TRACE_ID:%X{traceId}'
+    
+# セッションのタイムアウト時間
+# デフォルトは30分。秒で指定。
+server:
+  servlet:
+    session:
+      timeout: 1800
